@@ -20,6 +20,8 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+
+    //현금으로 구매
     @Transactional
     public void orderProductByCash(OrderRequestDto orderRequestDto) {
         User user = userRepository.findByUserName(orderRequestDto.getUserName());
@@ -31,8 +33,15 @@ public class OrderService {
         }
     }
 
+    //포인트로 그매
     @Transactional
     public void orderProductByPoint(OrderRequestDto orderRequestDto) {
-
+        User user = userRepository.findByUserName(orderRequestDto.getUserName());
+        List<OrderListRequestDto> products = orderRequestDto.getProducts();
+        for (OrderListRequestDto product : products) {
+            Product byProductName = productRepository.findByProductName(product.getProductName());
+            OrderList orderList = OrderList.orderProductsByPoint(user, byProductName, product.getProductCount());
+            orderRepository.save(orderList);
+        }
     }
 }

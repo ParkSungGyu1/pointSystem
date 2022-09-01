@@ -16,8 +16,8 @@ public class ShoppingBasketController {
 
     private final ShoppingBasketService shoppingBasketService;
 
-    //장바구니 담기기
-   @PostMapping("/api/shopbasket/add")
+    //장바구니 담기
+   @PostMapping("/api/shopBasket/add")
     public ResponseEntity<ApiResponseMessage> addShopBasket(@RequestBody AddShopBasketRequestDto addShopBasketRequestDto){
        shoppingBasketService.addShopBasket(addShopBasketRequestDto);
        ApiResponseMessage message = new ApiResponseMessage("Success", "장바구니 담기 완료", "", "");
