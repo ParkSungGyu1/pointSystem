@@ -1,11 +1,13 @@
 package com.spring.pointsystem.domain;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BasketProduct {
 
@@ -14,7 +16,7 @@ public class BasketProduct {
     @Column(name = "basketProduct_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "shopBasket_id")
     private ShopBasket shopBasket;
 

@@ -30,6 +30,7 @@ public class ShoppingBasketService  {
     @Transactional
     public void addShopBasket(AddShopBasketRequestDto addShopBasketRequestDto) {
         User user = userRepository.findByUserName(addShopBasketRequestDto.getUserName());
+        System.out.println(user.getUserName()+"----------------------------");
         ShopBasket shopBasket = ShopBasket.createShopBasket(user);
         List<OrderListRequestDto> products = addShopBasketRequestDto.getProducts();
         for (OrderListRequestDto product : products) {

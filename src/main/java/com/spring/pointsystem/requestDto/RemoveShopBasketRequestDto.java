@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class RemoveShopBasketRequestDto {
     private Long userId;
-    private Long ProductId;
+    private Long productId;
 }

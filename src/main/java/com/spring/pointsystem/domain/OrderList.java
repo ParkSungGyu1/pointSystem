@@ -26,7 +26,7 @@ public class OrderList {
     //현금 주문 생성
     public static OrderList orderProductsByCash(User user, Product product, int count){
         OrderList orderList = new OrderList();
-        user.useCash(product.getProductPrice(), product.getProductPoint(), count);
+        user.useCash(product.getProductPrice(), product.countProductPoint(), count);
         product.deductionCount(count);
         orderList.settingOrder(user, product);
         return orderList;
@@ -35,7 +35,7 @@ public class OrderList {
     //포인트 주문 생성
     public static OrderList orderProductsByPoint(User user, Product product, int count){
         OrderList orderList = new OrderList();
-        user.usePoint(product.getProductPrice());
+        user.usePoint(product.getProductPrice(),count);
         product.deductionCount(count);
         orderList.settingOrder(user, product);
         return orderList;

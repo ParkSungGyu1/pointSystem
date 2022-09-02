@@ -1,12 +1,15 @@
 package com.spring.pointsystem.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "users")
 public class User {
@@ -24,9 +27,9 @@ public class User {
     @Column(nullable = false)
     private Long userPoint;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "shopBasket_id")
-    private BasketProduct basketProduct;
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    private ShopBasket shopBasket;
 
     //== 생성 메서드 ==//
 
@@ -44,6 +47,11 @@ public class User {
         this.userPoint = userPoint;
     }
 
+    //장바구니 세터 메서드
+    public void settingShopBasket(ShopBasket shopBasket){
+        this.shopBasket = shopBasket;
+    }
+
     //== 비즈니스 로직 ==//
     //현금 차감 후 포인트 적립
     public void useCash(int fee, int point, int count){
@@ -51,15 +59,15 @@ public class User {
             throw new IllegalArgumentException("요금이 부족합니다.");
         }else{
             this.userCash -= fee * count;
-            this.userPoint += point;
+            this.userPoint += point*count;
         }
     }
     //포인트 차감
-    public void usePoint(int fee){
+    public void usePoint(int fee, int count){
         if(this.userPoint < fee){
             throw new IllegalArgumentException("포인트가 부족합니다.");
         }else{
-            this.userPoint -= fee;
+            this.userPoint -= fee * count;
         }
     }
 }

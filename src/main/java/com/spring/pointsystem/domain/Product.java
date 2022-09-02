@@ -1,11 +1,13 @@
 package com.spring.pointsystem.domain;
 
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
+@Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Product {
     @Id
@@ -47,13 +49,9 @@ public class Product {
     }
 
     //== 비즈니스 로직 ==//
-    //가격 getter
-    public int getProductPrice(){
-        return this.productPrice;
-    }
 
     //포인트 비율 계산
-    public int getProductPoint(){
+    public int countProductPoint(){
         return (this.productPrice * this.pointRate) / 100;
     }
 
